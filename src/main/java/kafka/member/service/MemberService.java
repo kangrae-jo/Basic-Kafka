@@ -1,9 +1,9 @@
 package kafka.member.service;
 
+import kafka.jwt.JwtProvider;
 import kafka.member.entity.Member;
 import kafka.member.entity.Role;
 import kafka.member.repository.MemberRepository;
-import kafka.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,11 @@ public class MemberService {
             throw new IllegalArgumentException("[ERROR] 비밀번호가 일치하지 않습니다.");
         }
 
-        return jwtProvider.createToken(member.getName());
+        return jwtProvider.createToken(
+                member.getId(),
+                member.getName(),
+                member.getRole().name()
+        );
     }
 
 }
