@@ -8,7 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
-import kafka.member.payload.MemberDTO;
+import kafka.member.dto.MemberDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -57,5 +57,5 @@ public class JwtProvider {
             return false;
         }
     }
-    
+
 }
