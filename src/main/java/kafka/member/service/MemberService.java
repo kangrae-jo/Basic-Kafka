@@ -3,6 +3,7 @@ package kafka.member.service;
 import kafka.member.entity.Member;
 import kafka.member.entity.Role;
 import kafka.member.repository.MemberRepository;
+import kafka.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     public void register(String name, String password) {
         if (memberRepository.findByName(name).isPresent()) {
@@ -26,6 +28,17 @@ public class MemberService {
                 .build();
 
         memberRepository.save(member);
+    }
+
+    public String login(String name, String password) {
+        Member member = memberRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 사용자를 찾을 수 없습니다."));
+
+        if (!passwordEncoder.matches(password, member.getPassword())) {
+            throw new IllegalArgumentException("[ERROR] 비밀번호가 일치하지 않습니다.");
+        }
+
+        return jwtProvider.createToken(member.getName());
     }
 
 }
