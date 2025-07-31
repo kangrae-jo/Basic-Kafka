@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwtProvider.validateToken(token)) {
                 MemberDTO member = jwtProvider.getMemberDTO(token);
-                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + member.getRole()));
+                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + member.role()));
 
                 // 인증 객체 생성
                 UsernamePasswordAuthenticationToken authentication =

@@ -24,7 +24,7 @@ public class MemberController {
                                       @RequestParam("password") String password) {
         try {
             memberService.register(name, password);
-            return ResponseEntity.ok("[ INFO]회원가입 완료");
+            return ResponseEntity.ok("[INFO] 회원가입 완료");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
