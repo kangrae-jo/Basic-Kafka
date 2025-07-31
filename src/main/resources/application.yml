@@ -40,5 +40,5 @@ jwt:
 # Logging
 logging:
   level:
-    com.payment.system: DEBUG
-    org.springframework.security: DEBUG
+    com.payment.system: info
+    org.springframework.security: info
