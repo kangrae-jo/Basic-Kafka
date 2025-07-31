@@ -37,6 +37,10 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private int points = 10000;
+
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -59,6 +63,10 @@ public class Member {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public int decreasePoints(int amount) {
+        return this.points -= amount;
     }
 
 }
