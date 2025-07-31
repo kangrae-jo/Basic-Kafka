@@ -2,7 +2,7 @@ package kafka.order.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kafka.order.dto.OrderRequest;
+import kafka.order.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ public class OrderProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    public void sendOrder(OrderRequest request) {
+    public void sendOrder(OrderDTO request) {
         try {
             String json = objectMapper.writeValueAsString(request);
             kafkaTemplate.send("order-topic", json);
