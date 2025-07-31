@@ -1,4 +1,4 @@
-package kafka.member.payload;
+package kafka.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

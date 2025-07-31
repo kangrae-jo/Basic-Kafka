@@ -18,6 +18,18 @@ spring:
         format_sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: order-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 # JWT
 jwt:
   secret: ${JWT_SECRET_KEY}
@@ -28,5 +40,5 @@ jwt:
 # Logging
 logging:
   level:
-    com.payment.system: DEBUG
-    org.springframework.security: DEBUG
+    com.payment.system: info
+    org.springframework.security: info

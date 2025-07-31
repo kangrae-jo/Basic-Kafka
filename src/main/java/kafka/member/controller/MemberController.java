@@ -1,6 +1,6 @@
 package kafka.member.controller;
 
-import kafka.member.payload.MemberDTO;
+import kafka.member.dto.MemberDTO;
 import kafka.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
