@@ -7,9 +7,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -37,7 +38,6 @@ public class Order {
     private Member member;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    @JoinColumn(name = "")
     private List<OrderItem> items = new ArrayList<>();
 
 }
