@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -30,6 +31,7 @@ public class OrderItem {
     @Column
     private int priceAtOrder; // 주문 당시 가격
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
