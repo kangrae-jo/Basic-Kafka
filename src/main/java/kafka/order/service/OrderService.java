@@ -3,6 +3,7 @@ package kafka.order.service;
 import java.time.LocalDateTime;
 import kafka.member.entity.Member;
 import kafka.member.repository.MemberRepository;
+import kafka.menu.entity.Menu;
 import kafka.menu.repository.MenuRepository;
 import kafka.order.dto.OrderDTO;
 import kafka.order.dto.OrderItemDTO;
@@ -46,10 +47,13 @@ public class OrderService {
 
         // orderItem 객체 생성 및 저장
         for (OrderItemDTO itemDTO : request.items()) {
+            Menu menu = menuRepository.findById(itemDTO.menuId())
+                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 메뉴를 찾을 수 없습니다."));
+
             OrderItem item = OrderItem.builder()
-                    .menu(menuRepository.findById(itemDTO.menuId())
-                            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 메뉴를 찾을 수 없습니다.")))
+                    .menu(menu)
                     .quantity(itemDTO.quantity())
+                    .priceAtOrder(menu.getPrice())
                     .build();
             order.addItem(item);
         }
