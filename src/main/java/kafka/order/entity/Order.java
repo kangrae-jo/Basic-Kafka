@@ -45,4 +45,20 @@ public class Order {
         items.add(item);
     }
 
+    public void payBy(Member member) {
+        int price = calculateTotalPrice();
+
+        if (member.getPoints() < price) {
+            throw new IllegalArgumentException("[ERROR] 포인트 부족");
+        }
+
+        member.decreasePoints(price);
+    }
+
+    private int calculateTotalPrice() {
+        return items.stream()
+                .mapToInt(item -> item.getMenu().getPrice() * item.getQuantity())
+                .sum();
+    }
+
 }

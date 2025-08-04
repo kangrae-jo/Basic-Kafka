@@ -3,7 +3,6 @@ package kafka.order.service;
 import java.time.LocalDateTime;
 import kafka.member.entity.Member;
 import kafka.member.repository.MemberRepository;
-import kafka.menu.entity.Menu;
 import kafka.menu.repository.MenuRepository;
 import kafka.order.dto.OrderDTO;
 import kafka.order.dto.OrderItemDTO;
@@ -13,6 +12,7 @@ import kafka.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -23,6 +23,7 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final MenuRepository menuRepository;
 
+    @Transactional
     public void saveOrder(OrderDTO request) {
         log.info("주문 접수: id={}", request.memberId());
         log.info("주문 내역: order={}", request.items());
@@ -32,10 +33,8 @@ public class OrderService {
 
         // Order 생성
         Order order = makeOrder(member, request);
-
         // 계산 및 차감
-        orderProcedure(member, request);
-
+        order.payBy(member);
     }
 
     private Order makeOrder(Member member, OrderDTO request) {
@@ -56,24 +55,6 @@ public class OrderService {
         }
 
         return orderRepository.save(order);
-    }
-
-    private void orderProcedure(Member member, OrderDTO request) {
-        // 총 주문 금액 계산
-        int amount = request.items().stream()
-                .mapToInt(item -> {
-                    Menu menu = menuRepository.findById(item.menuId())
-                            .orElseThrow(() -> new IllegalArgumentException("[ERROR] 메뉴를 찾을 수 없습니다."));
-                    return menu.getPrice() * item.quantity();
-                })
-                .sum();
-
-        if (member.getPoints() < amount) {
-            throw new IllegalArgumentException("[ERROR] 금액이 부족합니다.");
-        }
-
-        member.decreasePoints(amount);
-        log.info("주문 완료: amount={}, id={}", amount, request.memberId());
     }
 
 }
