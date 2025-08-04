@@ -5,6 +5,7 @@ import kafka.member.entity.Member;
 import kafka.member.repository.MemberRepository;
 import kafka.menu.entity.Menu;
 import kafka.menu.repository.MenuRepository;
+import kafka.order.constant.OrderStatus;
 import kafka.order.dto.OrderDTO;
 import kafka.order.dto.OrderItemDTO;
 import kafka.order.entity.Order;
@@ -43,6 +44,7 @@ public class OrderService {
         Order order = Order.builder()
                 .orderTime(LocalDateTime.now())
                 .member(member)
+                .status(OrderStatus.CREATED)
                 .build();
 
         // orderItem 객체 생성 및 저장
