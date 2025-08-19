@@ -1,5 +1,7 @@
 # application.yml
 spring:
+  application:
+    name: Basic-Kafka
   config:
     import: optional:file:.env[.properties]
 
@@ -15,7 +17,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
   kafka:
@@ -42,3 +44,22 @@ logging:
   level:
     com.payment.system: info
     org.springframework.security: info
+
+# monitor
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
